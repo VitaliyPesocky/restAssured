@@ -9,22 +9,33 @@ import org.junit.BeforeClass;
 
 public class TestConfig {
 
+    public static RequestSpecification videoGame_requestSpec;
+    public static RequestSpecification football_requestSpec;
+    public static ResponseSpecification responseSpecification;
+
     @BeforeClass
     public static void setup() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = 8080;
-        RestAssured.basePath = "/app/";
 
         RestAssured.proxy("localhost", 8866);
 
-        RequestSpecification requestSpecification = new RequestSpecBuilder().
+        videoGame_requestSpec = new RequestSpecBuilder().
+                setBaseUri("http://localhost").
+                setPort(8080).
+                setBasePath("/app/").
                 addHeader("Content-Type", "application/json").
                 addHeader("Accept", "application/json").
                 build();
 
-        RestAssured.requestSpecification = requestSpecification;
+        football_requestSpec = new RequestSpecBuilder().
+                setBaseUri("https://api.football-data.org").
+                setBasePath("/v2/").
+                addHeader("X-Auth-Token", "c9a1abfed8f742758a75bab903eb9333").
+                addHeader("X-Response-Control", "minified").
+                build();
 
-        ResponseSpecification responseSpecification = new ResponseSpecBuilder().
+        RestAssured.requestSpecification = videoGame_requestSpec;
+
+        responseSpecification = new ResponseSpecBuilder().
                 expectStatusCode(200).
                 build();
 
