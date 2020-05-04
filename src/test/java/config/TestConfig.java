@@ -33,8 +33,6 @@ public class TestConfig {
                 addHeader("X-Response-Control", "minified").
                 build();
 
-        RestAssured.requestSpecification = videoGame_requestSpec;
-
         responseSpecification = new ResponseSpecBuilder().
                 expectStatusCode(200).
                 build();

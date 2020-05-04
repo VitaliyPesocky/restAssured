@@ -10,7 +10,9 @@ public class VideoGameDBTests extends TestConfig {
     public void getAllGames() {
         when().
                 get(EndPoint.VIDEOGAMES).
-        then();
+        then().
+                log().
+                all();
     }
 
     @Test
@@ -32,7 +34,41 @@ public class VideoGameDBTests extends TestConfig {
     }
 
     @Test
-    public void createNewGameByXML() {
-        String gameBodyXml = "";
+    public void updateGame() {
+        String gameBodyJson = "{\n" +
+                "  \"id\": 11,\n" +
+                "  \"name\": \"MyUpdatedGame\",\n" +
+                "  \"releaseDate\": \"2020-05-02T13:36:10.131Z\",\n" +
+                "  \"reviewScore\": 99,\n" +
+                "  \"category\": \"Driving\",\n" +
+                "  \"rating\": \"Mature\"\n" +
+                "}";
+
+        given().
+                body(gameBodyJson).
+        when().
+                put(EndPoint.VIDEOGAMES + "/11").
+        then().
+                log().
+                all();
+
+    }
+
+    @Test
+    public void deleteGame() {
+        when().
+                delete(EndPoint.VIDEOGAMES + "/11").
+        then().
+                log().
+                all();
+    }
+
+    @Test
+    public void getSingleGame() {
+        given().
+                pathParam("videoGameId", 5).
+        when().
+                get(EndPoint.SINGLE_VIDEOGAME).
+        then();
     }
 }
